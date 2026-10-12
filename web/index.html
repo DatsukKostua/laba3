@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f5f2eb">
+    <meta
+      name="description"
+      content="Каталог товарів із пошуком, кошиком і простою формою замовлення."
+    >
+    <title>Крамниця — товари для щоденних радощів</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="script.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#" aria-label="Крамниця — на початок">
+        <span class="brand-mark" aria-hidden="true">к.</span>
+        <span>крамниця<span class="brand-period">.</span></span>
+      </a>
+      <a class="header-cart" href="#cart">
+        Ваш кошик <span id="header-cart-count" class="count-badge">0</span>
+      </a>
+    </header>
+
+    <main>
+      <section class="intro" aria-labelledby="page-title">
+        <p class="eyebrow">Знайомтеся. Обирайте. Замовляйте.</p>
+        <h1 id="page-title">Речі, які роблять<br>щодень <span>кращим.</span></h1>
+        <p class="intro-copy">
+          Перегляньте каталог, додайте улюблене до кошика — і ми підготуємо
+          ваше замовлення.
+        </p>
+      </section>
+
+      <section class="catalog-section" aria-labelledby="catalog-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Знайдіть своє</p>
+            <h2 id="catalog-title">Каталог товарів</h2>
+          </div>
+          <p id="catalog-count" class="catalog-count"></p>
+        </div>
+
+        <div class="catalog-controls">
+          <label class="search-field">
+            <span class="visually-hidden">Пошук товарів</span>
+            <span class="search-icon" aria-hidden="true">⌕</span>
+            <input
+              id="search-input"
+              name="search"
+              type="search"
+              placeholder="Назва, бренд або категорія"
+              autocomplete="off"
+            >
+          </label>
+          <label class="select-field">
+            <span class="visually-hidden">Категорія</span>
+            <select id="category-filter" name="category">
+              <option value="">Усі категорії</option>
+            </select>
+          </label>
+          <label class="select-field">
+            <span class="visually-hidden">Сортування</span>
+            <select id="sort-order" name="sort">
+              <option value="featured">Спочатку популярні</option>
+              <option value="price-asc">Ціна: від нижчої</option>
+              <option value="price-desc">Ціна: від вищої</option>
+              <option value="rating">Найвищий рейтинг</option>
+            </select>
+          </label>
+        </div>
+
+        <p id="catalog-status" class="status-message" role="status" aria-live="polite">
+          Завантажуємо товари…
+        </p>
+        <div id="product-grid" class="product-grid" aria-busy="true"></div>
+      </section>
+
+      <section id="cart" class="checkout-section" aria-labelledby="cart-title">
+        <div class="section-heading checkout-heading">
+          <div>
+            <p class="eyebrow">Майже готово</p>
+            <h2 id="cart-title" tabindex="-1">Ваш кошик</h2>
+          </div>
+          <p id="cart-count" class="catalog-count">0 товарів</p>
+        </div>
+
+        <div class="checkout-layout">
+          <section class="cart-panel" aria-label="Обрані товари">
+            <div id="cart-items" class="cart-items"></div>
+            <div class="cart-total">
+              <span>Разом</span>
+              <strong id="cart-total">0 $</strong>
+            </div>
+            <p id="cart-guidance" class="cart-guidance">
+              Додайте товари з каталогу, щоб оформити замовлення.
+            </p>
+          </section>
+
+          <form id="order-form" class="order-form" novalidate>
+            <h3>Дані для замовлення</h3>
+            <p class="form-intro">Залиште контакти — це навчальне замовлення, оплата не потрібна.</p>
+
+            <div class="form-field">
+              <label for="customer-name">Ваше ім’я <span aria-hidden="true">*</span></label>
+              <input
+                id="customer-name"
+                name="customerName"
+                type="text"
+                autocomplete="name"
+                minlength="2"
+                required
+                aria-describedby="name-error"
+              >
+              <small id="name-error" class="field-error"></small>
+            </div>
+
+            <div class="form-field">
+              <label for="customer-email">Електронна пошта <span aria-hidden="true">*</span></label>
+              <input
+                id="customer-email"
+                name="email"
+                type="email"
+                autocomplete="email"
+                required
+                aria-describedby="email-error"
+              >
+              <small id="email-error" class="field-error"></small>
+            </div>
+
+            <div class="form-field">
+              <label for="customer-phone">Номер телефону <span aria-hidden="true">*</span></label>
+              <input
+                id="customer-phone"
+                name="phone"
+                type="tel"
+                autocomplete="tel"
+                placeholder="+380 00 000 00 00"
+                required
+                aria-describedby="phone-error"
+              >
+              <small id="phone-error" class="field-error"></small>
+            </div>
+
+            <div class="form-field">
+              <label for="order-note">Побажання до замовлення <span class="optional">(необов’язково)</span></label>
+              <textarea
+                id="order-note"
+                name="note"
+                rows="3"
+                maxlength="300"
+                aria-describedby="note-error"
+              ></textarea>
+              <small id="note-error" class="field-error"></small>
+            </div>
+
+            <p id="form-status" class="form-status" role="status" aria-live="polite"></p>
+            <button id="submit-order" class="button button-primary submit-button" type="submit" disabled>
+              Оформити замовлення
+            </button>
+            <p class="required-note">* Обов’язкові поля</p>
+          </form>
+        </div>
+
+        <section id="success-panel" class="success-panel" aria-live="polite" tabindex="-1" hidden>
+          <span class="success-mark" aria-hidden="true">✓</span>
+          <div>
+            <p class="eyebrow">Усе вдалося</p>
+            <h3>Замовлення оформлено!</h3>
+            <p id="success-message"></p>
+            <div id="order-summary" class="order-summary"></div>
+            <button id="new-order-button" class="button button-secondary" type="button">
+              Оформити ще одне
+            </button>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>крамниця.</span>
+      <span>Демо-каталог · Дані надані DummyJSON</span>
+    </footer>
+  </body>
+</html>
